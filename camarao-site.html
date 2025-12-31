@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advogadu Aquaticu</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-color: #e0f7ff;
+            color: #003366;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            background-image: url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M10,10 C20,20 30,10 40,20 C50,30 60,20 70,30 C80,40 90,30 90,10 L90,90 L10,90 Z" fill="%2300aaff" opacity="0.1"/></svg>');
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background-color: rgba(0, 170, 255, 0.1);
+            border-radius: 20px;
+            border: 5px dashed #00aaff;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            color: #0066cc;
+            margin-bottom: 10px;
+            text-shadow: 3px 3px 0px #99ddff;
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: #0099cc;
+            margin-bottom: 20px;
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            color: #006699;
+            font-style: italic;
+        }
+
+        .erros {
+            color: #ff3366;
+            font-weight: bold;
+            text-decoration: underline;
+        }
+
+        .categorias {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+
+        .categoria-btn {
+            background-color: #00aaff;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.8rem;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            box-shadow: 5px 5px 0px #006699;
+        }
+
+        .categoria-btn:hover {
+            background-color: #ff3366;
+            transform: translateY(-5px);
+            box-shadow: 8px 8px 0px #990033;
+        }
+
+        .conteudo {
+            display: none;
+            background-color: white;
+            padding: 30px;
+            border-radius: 20px;
+            margin-top: 20px;
+            border: 5px solid #00aaff;
+            box-shadow: 10px 10px 0px rgba(0, 102, 153, 0.3);
+        }
+
+        .conteudo.ativo {
+            display: block;
+            animation: aparecer 0.5s ease-out;
+        }
+
+        @keyframes aparecer {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .conteudo h3 {
+            font-size: 2.5rem;
+            color: #ff3366;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .conteudo p {
+            font-size: 1.8rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .palavras-erradas {
+            color: #ff3366;
+            font-weight: bold;
+            text-decoration: underline;
+            font-size: 2rem;
+        }
+
+        .voltar {
+            display: block;
+            margin: 30px auto 0;
+            background-color: #009933;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.5rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .voltar:hover {
+            background-color: #006622;
+        }
+
+        .elementos-aquaticos {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .elemento {
+            font-size: 4rem;
+            animation: flutuar 3s infinite ease-in-out;
+        }
+
+        @keyframes flutuar {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: #006699;
+            font-size: 1.2rem;
+            border-top: 3px dotted #00aaff;
+        }
+
+        /* ESTILOS ESPECÍFICOS PARA AS CATEGORIAS */
+        
+        /* INICIU - CONTRATOS */
+        .planos {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .plano {
+            background: linear-gradient(135deg, #00aaff, #0066cc);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            border: 5px solid #ff3366;
+            transition: transform 0.3s;
+        }
+
+        .plano:hover {
+            transform: scale(1.05);
+        }
+
+        .plano h4 {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            text-align: center;
+            color: #ffcc00;
+            text-shadow: 2px 2px 0px #cc9900;
+        }
+
+        .preco {
+            font-size: 2rem;
+            color: #ffcc00;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .descricao {
+            font-size: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .contratar-btn {
+            display: block;
+            width: 100%;
+            background-color: #ff3366;
+            color: white;
+            border: none;
+            padding: 15px;
+            font-size: 1.8rem;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .contratar-btn:hover {
+            background-color: #cc0044;
+        }
+
+        /* MEIU - BENEFÍCIOS */
+        .beneficios-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .beneficio {
+            background-color: #ffcc00;
+            padding: 25px;
+            border-radius: 15px;
+            border: 5px solid #0066cc;
+        }
+
+        .beneficio h4 {
+            font-size: 2rem;
+            color: #0066cc;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .trabalha {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ff3366;
+            margin-top: 15px;
+            border-top: 2px dashed #0066cc;
+            padding-top: 10px;
+        }
+
+        /* FINAU - CONTATO */
+        .formulario-contato {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .campo {
+            margin-bottom: 25px;
+        }
+
+        .campo label {
+            display: block;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: #0066cc;
+        }
+
+        .campo input,
+        .campo textarea {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.5rem;
+            border: 3px solid #00aaff;
+            border-radius: 10px;
+            background-color: #f0faff;
+        }
+
+        .enviar-btn {
+            display: block;
+            width: 100%;
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            padding: 20px;
+            font-size: 2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .enviar-btn:hover {
+            background-color: #004499;
+        }
+
+        .redes-sociais {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .rede {
+            font-size: 3rem;
+            color: #0066cc;
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+
+        .rede:hover {
+            transform: scale(1.3);
+            color: #ff3366;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .categoria-btn { font-size: 1.5rem; padding: 12px 20px; }
+            .conteudo p { font-size: 1.5rem; }
+            .plano h4, .beneficio h4 { font-size: 1.8rem; }
+            .preco { font-size: 1.7rem; }
+            .descricao { font-size: 1.3rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Advogadu Aquaticu</h1>
+        <p class="subtitle">Defendendu <span class="erros">direitu</span> no fundu du <span class="erros">mare</span></p>
+        <div class="elementos-aquaticos">
+            <div class="elemento">🦐</div>
+            <div class="elemento">🐠</div>
+            <div class="elemento">🐙</div>
+            <div class="elemento">🦀</div>
+            <div class="elemento">🐚</div>
+        </div>
+    </header>
+
+    <main>
+        <div class="categorias">
+            <button class="categoria-btn" data-categoria="iniciu">Iniciu</button>
+            <button class="categoria-btn" data-categoria="meiu">Meiu</button>
+            <button class="categoria-btn" data-categoria="finau">Finau</button>
+        </div>
+
+        <div id="iniciu" class="conteudo">
+            <h3>CONTRATU DU ADVOGADU</h3>
+            <p>Escolha <span class="palavras-erradas">seu</span> <span class="palavras-erradas">planu</span> e <span class="palavras-erradas">contrate</span> o <span class="palavras-erradas">melhor</span> <span class="palavras-erradas">advogadu</span> <span class="palavras-erradas">aquaticu</span>!</p>
+            
+            <div class="planos">
+                <div class="plano">
+                    <h4>PLANU BÁSICU</h4>
+                    <div class="preco">7 TUBARUÍUS</div>
+                    <div class="descricao">
+                        <p>• Defendu <span class="palavras-erradas">simplís</span></p>
+                        <p>• Consulta de <span class="palavras-erradas">15 minutus</span></p>
+                        <p>• 1 <span class="palavras-erradas">abraçu</span> de <span class="palavras-erradas">camarãu</span></p>
+                        <p>• Respostu por <span class="palavras-erradas">email</span> em <span class="palavras-erradas">7 dias</span></p>
+                    </div>
+                    <button class="contratar-btn">CONTRATAR</button>
+                </div>
+                
+                <div class="plano">
+                    <h4>PLANU INTERMEDIÁRIU</h4>
+                    <div class="preco">100 PEIXIS NU ANIVERSÁRIU DU MESSI ANÃO</div>
+                    <div class="descricao">
+                        <p>• Defendu <span class="palavras-erradas">complicadu</span></p>
+                        <p>• 3 <span class="palavras-erradas">consultas</span> ilimitadas</p>
+                        <p>• <span class="palavras-erradas">Acompanhamentu</span> em <span class="palavras-erradas">audiencia</span></p>
+                        <p>• Direitu a <span class="palavras-erradas">selfi</span> com o <span class="palavras-erradas">camarãu</span></p>
+                    </div>
+                    <button class="contratar-btn">CONTRATAR</button>
+                </div>
+                
+                <div class="plano">
+                    <h4>PLANU PREMIUM</h4>
+                    <div class="preco">1 FESTA DE BICICLETA DU MESSI ANÃO + 50 ALGAS BRILHANTIS</div>
+                    <div class="descricao">
+                        <p>• Defendu <span class="palavras-erradas">super</span> <span class="palavras-erradas">poderosu</span></p>
+                        <p>• Consultas <span class="palavras-erradas">24 horas</span></p>
+                        <p>• <span class="palavras-erradas">Advogadu</span> <span class="palavras-erradas">pessoal</span></p>
+                        <p>• <span class="palavras-erradas">Garantia</span> de <span class="palavras-erradas">vitória</span> ou <span class="palavras-erradas">devoluçã</span> dos <span class="palavras-erradas">peixis</span></p>
+                    </div>
+                    <button class="contratar-btn">CONTRATAR</button>
+                </div>
+            </div>
+            
+            <button class="voltar">Voltar pras categorias</button>
+        </div>
+
+        <div id="meiu" class="conteudo">
+            <h3>O QUE CADA PLANU FAZ</h3>
+            <p><span class="palavras-erradas">Descubra</span> os <span class="palavras-erradas">benefícius</span> e o que <span class="palavras-erradas">cada</span> <span class="palavras-erradas">planu</span> <span class="palavras-erradas">trabalha</span>!</p>
+            
+            <div class="beneficios-container">
+                <div class="beneficio">
+                    <h4>PLANU BÁSICU</h4>
+                    <p><span class="palavras-erradas">Benefícius</span>:</p>
+                    <p>• <span class="palavras-erradas">Defesa</span> básica de <span class="palavras-erradas">casus</span> <span class="palavras-erradas">simplís</span></p>
+                    <p>• <span class="palavras-erradas">Consultu</span> rápido por <span class="palavras-erradas">videu</span>-<span class="palavras-erradas">chamada</span></p>
+                    <p>• <span class="palavras-erradas">Documentus</span> <span class="palavras-erradas">padronizadus</span></p>
+                    <div class="trabalha">
+                        <span class="palavras-erradas">Trabalha</span> em: <span class="palavras-erradas">Divórciu</span> de <span class="palavras-erradas">peixis</span>, <span class="palavras-erradas">briga</span> por <span class="palavras-erradas">algas</span>, <span class="palavras-erradas">discussã</span> de <span class="palavras-erradas">territóriu</span>
+                    </div>
+                </div>
+                
+                <div class="beneficio">
+                    <h4>PLANU INTERMEDIÁRIU</h4>
+                    <p><span class="palavras-erradas">Benefícius</span>:</p>
+                    <p>• <span class="palavras-erradas">Defesa</span> com <span class="palavras-erradas">argumentus</span> <span class="palavras-erradas">avançadus</span></p>
+                    <p>• <span class="palavras-erradas">Presença</span> em <span class="palavras-erradas">audiencias</span></p>
+                    <p>• <span class="palavras-erradas">Consultoria</span> <span class="palavras-erradas">estratégica</span></p>
+                    <div class="trabalha">
+                        <span class="palavras-erradas">Trabalha</span> em: <span class="palavras-erradas">Casus</span> de <span class="palavras-erradas">poluiçã</span> <span class="palavras-erradas">aquática</span>, <span class="palavras-erradas">disputas</span> <span class="palavras-erradas">comerciais</span> entre <span class="palavras-erradas">crustáceus</span>
+                    </div>
+                </div>
+                
+                <div class="beneficio">
+                    <h4>PLANU PREMIUM</h4>
+                    <p><span class="palavras-erradas">Benefícius</span>:</p>
+                    <p>• <span class="palavras-erradas">Defesa</span> <span class="palavras-erradas">total</span> e <span class="palavras-erradas">irrestrita</span></p>
+                    <p>• <span class="palavras-erradas">Plantã</span> <span class="palavras-erradas">24/7</span> com o <span class="palavras-erradas">própriu</span> <span class="palavras-erradas">camarãu</span></p>
+                    <p>• <span class="palavras-erradas">Estratégia</span> de <span class="palavras-erradas">defesa</span> <span class="palavras-erradas">personalizada</span></p>
+                    <div class="trabalha">
+                        <span class="palavras-erradas">Trabalha</span> em: <span class="palavras-erradas">Guerras</span> entre <span class="palavras-erradas">oceanus</span>, <span class="palavras-erradas">defesa</span> contra <span class="palavras-erradas">tubarõis</span> <span class="palavras-erradas">corporativus</span>, <span class="palavras-erradas">casus</span> <span class="palavras-erradas">internacionais</span>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="voltar">Voltar pras categorias</button>
+        </div>
+
+        <div id="finau" class="conteudo">
+            <h3>MANDE UMA MENSAGEM</h3>
+            <p><span class="palavras-erradas">Fale</span> <span class="palavras-erradas">conosco</span> ou <span class="palavras-erradas">siga</span> nas <span class="palavras-erradas">redes</span> <span class="palavras-erradas">sociais</span>!</p>
+            
+            <div class="formulario-contato">
+                <div class="campo">
+                    <label for="nome">Seu <span class="palavras-erradas">nome</span>:</label>
+                    <input type="text" id="nome" placeholder="Digiti seu nome">
+                </div>
+                
+                <div class="campo">
+                    <label for="email">Seu <span class="palavras-erradas">email</span>:</label>
+                    <input type="email" id="email" placeholder="seu.email@aquaticu.com">
+                </div>
+                
+                <div class="campo">
+                    <label for="mensagem">Sua <span class="palavras-erradas">mensagem</span>:</label>
+                    <textarea id="mensagem" rows="5" placeholder="Escreva sua mensagem aquática aqui..."></textarea>
+                </div>
+                
+                <button class="enviar-btn">ENVIAR MENSAGEM</button>
+            </div>
+            
+            <div class="redes-sociais">
+                <div class="rede">📘 <span class="palavras-erradas">Facebuqui</span></div>
+                <div class="rede">📷 <span class="palavras-erradas">Instagran</span></div>
+                <div class="rede">🐦 <span class="palavras-erradas">Tuiti</span></div>
+                <div class="rede">📞 <span class="palavras-erradas">Zapi</span></div>
+                <div class="rede">🎣 <span class="palavras-erradas">Pescari</span>.com</div>
+            </div>
+            
+            <button class="voltar">Voltar pras categorias</button>
+        </div>
+    </main>
+
+    <footer>
+        <p>Telefoni: (71) 9<span class="erros">9999</span>-<span class="erros">8888</span></p>
+        <p>Email: <span class="erros">camarãu.abestadu@direitu.aquaticu</span></p>
+        <p>© <span class="erros">2023</span> - Todos os <span class="palavras-erradas">direitus</span> <span class="palavras-erradas">reservadus</span> (ou <span class="palavras-erradas">naum</span>)</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const botoesCategorias = document.querySelectorAll('.categoria-btn');
+            const conteudos = document.querySelectorAll('.conteudo');
+            const botoesVoltar = document.querySelectorAll('.voltar');
+            
+            botoesCategorias.forEach(botao => {
+                botao.addEventListener('click', function() {
+                    const categoria = this.getAttribute('data-categoria');
+                    
+                    conteudos.forEach(conteudo => {
+                        conteudo.classList.remove('ativo');
+                    });
+                    
+                    document.getElementById(categoria).classList.add('ativo');
+                    
+                    document.querySelector('.categorias').style.display = 'none';
+                });
+            });
+            
+            botoesVoltar.forEach(botao => {
+                botao.addEventListener('click', function() {
+                    conteudos.forEach(conteudo => {
+                        conteudo.classList.remove('ativo');
+                    });
+                    
+                    document.querySelector('.categorias').style.display = 'flex';
+                });
+            });
+            
+            const palavrasErradas = document.querySelectorAll('.palavras-erradas, .erros');
+            palavrasErradas.forEach(palavra => {
+                palavra.addEventListener('mouseover', function() {
+                    this.style.color = '#00cc00';
+                    this.style.fontSize = '2.2rem';
+                });
+                
+                palavra.addEventListener('mouseout', function() {
+                    this.style.color = '#ff3366';
+                    this.style.fontSize = '';
+                });
+            });
+            
+            const elementos = document.querySelectorAll('.elemento');
+            elementos.forEach((elemento, index) => {
+                elemento.style.animationDelay = `${index * 0.5}s`;
+            });
+            
+            const contratarBotoes = document.querySelectorAll('.contratar-btn');
+            contratarBotoes.forEach(botao => {
+                botao.addEventListener('click', function() {
+                    const plano = this.parentElement.querySelector('h4').textContent;
+                    alert(`VOCÊ CONTRATOU O ${plano}!\n\nEm breve um camarão entrará em contato para combinar o pagamento em espécies aquáticas! 🦐`);
+                });
+            });
+            
+            const enviarBtn = document.querySelector('.enviar-btn');
+            enviarBtn.addEventListener('click', function() {
+                const nome = document.getElementById('nome').value;
+                const email = document.getElementById('email').value;
+                const mensagem = document.getElementById('mensagem').value;
+                
+                if(nome && email && mensagem) {
+                    alert(`MENSAGEM ENVIADA COM SUCESSO, ${nome.toUpperCase()}!\n\nO Camarão Abestado responderá em até 3 dias marinhos. 🐠`);
+                    document.getElementById('nome').value = '';
+                    document.getElementById('email').value = '';
+                    document.getElementById('mensagem').value = '';
+                } else {
+                    alert('POR FAVOR, PREENCHA TODUS OS CAMPUS ANTES DE ENVIAR! 🦀');
+                }
+            });
+            
+            const redes = document.querySelectorAll('.rede');
+            redes.forEach(rede => {
+                rede.addEventListener('click', function() {
+                    const redeNome = this.textContent;
+                    alert(`VOCÊ SERÁ REDIRECIONADO PARA NOSSA PÁGINA NO ${redeNome.toUpperCase()}!\n\n(A página ainda não existe, mas a ideia é boa!)`);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
